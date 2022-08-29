@@ -5,12 +5,11 @@ h2 {
 	padding-top: 20px;
 }
 
-
 /*Classes styles*/
 
 .content {
 	width: 90vw;
-	height: calc(100vh - 72.8px);
+	height: calc(100vh - 82.8px);
 	margin: auto;
 }
 
@@ -28,7 +27,7 @@ h2 {
 }
 
 .form {
-	margin-top: 40px;
+	margin-top: 20px;
 	width: 90%;
 }
 

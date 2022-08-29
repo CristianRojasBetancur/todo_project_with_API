@@ -3,20 +3,43 @@
 </head>
 
 <div class="content">
-		<h2>Tareas</h2><br>
-		<div class="tasks_container">
-			<ul>
-				<% if @tasks.empty? %>
-					<li class="no-tasks"><h3>No tienes tareas aún</h3></li>
-				<% else %>
-					<li>
-						<div class="ul-header">
-							<p><strong>Nombre</strong></p>
-							<p><strong>Estado</strong></p>
-							<p><strong>Acciones</strong></p>
-						</div>
-					</li>
-					<% @tasks.each do |task| %>
+	<div class="header-content">
+		<% if @type_tasks.nil? || @type_tasks.eql?('all') %>
+			<h1>Tareas</h1>
+		<% elsif @type_tasks.eql?('complete') %>
+			<h1>Tareas completadas</h1>
+		<% else %>
+			<h1>Tareas incompletas</h1>
+		<% end %>
+		<form action="/" method="get">
+			<input class="btn-filter" type="submit" value="Filtrar">
+			<select class="slc-filter" name="type_tasks">
+				<option value="all">Todas</option>
+				<option value="complete">Completas</option>
+				<option value="incomplete">Incompletas</option>
+			</select>
+		</form>
+	</div>
+	<br>
+	<div class="tasks_container">
+		<ul>
+				<% if @type_tasks.eql?('all') || @type_tasks.nil? %>
+					<% if @tasks.empty? %>
+
+						<li class="no-tasks"><h3>No tienes tareas aún</h3></li>
+
+					<% else %>
+
+						<li>
+							<div class="ul-header">
+								<p><strong>Nombre</strong></p>
+								<p><strong>Estado</strong></p>
+								<p><strong>Acciones</strong></p>
+							</div>
+						</li>
+
+						<% @tasks.each do |task| %>
+
 							<li>
 								<div class="card">
 									<div class="task">
@@ -29,16 +52,95 @@
 											<input style="display: none;" type="text" name="name" value="<%= task['name'] %>">
 											<input class="btn-update" type="submit" value="Completar">
 										</form>
-										<form action="/delete-task/?id=<%= task['_id'] %>" method="post">
-											<input type="hidden" name="_method" value="delete">
-											<input class="btn-delete" type="submit" value="Eliminar">
-										</form>
+										<form action="/delete-task/?id=<%= task['_id'] %>" method="POST"><input class="btn-delete" type="submit" value="Eliminar"></form>
 									</div>
 								</div>
 							</li>
+
+						<% end %>
 					<% end %>
+
+				<% elsif @type_tasks.eql?('complete') %>
+
+					<% if @complete_tasks.empty? %>
+
+						<li class="no-tasks"><h3>No tienes tareas completas aún</h3></li>
+
+					<% else %>
+
+						<li>
+							<div class="ul-header">
+								<p><strong>Nombre</strong></p>
+								<p><strong>Estado</strong></p>
+								<p><strong>Acciones</strong></p>
+							</div>
+						</li>
+
+						<% @complete_tasks.each do |task| %>
+
+							<li>
+								<div class="card">
+									<div class="task">
+										<p><%= task['name'] %></p>
+										<p><%= task['status'] ? 'Completa' : 'Incompleta'%></p>
+									</div>
+									<div class="actions">
+										<form action="/update-task/<%= "?id=#{task['_id']}&?name=#{task['name']}" %>" method="post">
+											<input type="hidden" name="_method" value="put">
+											<input style="display: none;" type="text" name="name" value="<%= task['name'] %>">
+											<input class="btn-update" type="submit" value="Completar">
+										</form>
+										<form action="/delete-task/?id=<%= task['_id'] %>" method="POST"><input class="btn-delete" type="submit" value="Eliminar"></form>
+									</div>
+								</div>
+							</li>
+
+						<% end %>
+
+					<% end %>
+
+				<% else %>
+
+					<% if @incomplete_tasks.empty? %>
+
+						<li class="no-tasks"><h3>No tienes tareas incompletas :D</h3></li>
+
+					<% else %>
+
+						<li>
+							<div class="ul-header">
+								<p><strong>Nombre</strong></p>
+								<p><strong>Estado</strong></p>
+								<p><strong>Acciones</strong></p>
+							</div>
+						</li>
+
+						<% @incomplete_tasks.each do |task| %>
+
+							<li>
+								<div class="card">
+									<div class="task">
+										<p><%= task['name'] %></p>
+										<p><%= task['status'] ? 'Completa' : 'Incompleta'%></p>
+									</div>
+									<div class="actions">
+										<form action="/update-task/<%= "?id=#{task['_id']}&?name=#{task['name']}" %>" method="post">
+											<input type="hidden" name="_method" value="put">
+											<input style="display: none;" type="text" name="name" value="<%= task['name'] %>">
+											<input class="btn-update" type="submit" value="Completar">
+										</form>
+										<form action="/delete-task/?id=<%= task['_id'] %>" method="POST"><input class="btn-delete" type="submit" value="Eliminar"></form>
+									</div>
+								</div>
+							</li>
+
+						<% end %>
+
+					<% end %>
+
 				<% end %>
-			</ul><br>
-		</div>
-		<a href="/new-task"><div class="button">Añadir</div></a>
+		</ul>
+		<br>
+	</div>
+	<a href="/new-task"><div class="button">Añadir</div></a>
 </div>
