@@ -1,8 +1,8 @@
 require 'json'
-require 'HTTParty'
+require 'httparty'
 
 module Tasks
-	BASE_URL = 'https://crudcrud.com/api/c5233a18cce2415bbc95d1874ea12095'
+	BASE_URL = 'https://crudcrud.com/api/b2c5936682d246ed8bc1c53fa903849d'
 
 	def all
 		response = HTTParty.get("#{BASE_URL}/tasks")

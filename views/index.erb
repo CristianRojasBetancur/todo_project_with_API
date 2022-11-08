@@ -52,7 +52,10 @@
 											<input style="display: none;" type="text" name="name" value="<%= task['name'] %>">
 											<input class="btn-update" type="submit" value="Completar">
 										</form>
-										<form action="/delete-task/?id=<%= task['_id'] %>" method="POST"><input class="btn-delete" type="submit" value="Eliminar"></form>
+										<form action="/delete-task/?id=<%= task['_id'] %>" method="post">
+											<input type="hidden" name="_method" value="delete"></input>
+											<input class="btn-delete" type="submit" value="Eliminar">
+										</form>
 									</div>
 								</div>
 							</li>

@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'sinatra/reloader' if development?
+# require 'sinatra/reloader' if development?
 require './tasks'
 require "sinatra/base"
 
@@ -21,12 +21,11 @@ class MyApp < Sinatra::Base
 
 	post '/add-task' do
 		params[:status].eql?('true') ? params[:status] = true : params[:status] = false
-		new_task = {
+
+		create({
 			name: params[:name],
 			status: params[:status]
-		}
-
-		create(new_task)
+		})
 		redirect '/'
 	end
 
@@ -34,12 +33,11 @@ class MyApp < Sinatra::Base
 
 	post '/update-task/' do
 		id = params[:id]
-		updated_task = {
+		
+		update({
 			name: params[:name],
 			status: true
-		}
-		
-		update(updated_task, id)
+		}, id)
 		redirect '/'
 	end
 
